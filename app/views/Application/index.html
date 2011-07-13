@@ -1,48 +1,126 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
-
-
 <script type="text/javascript">
-
 $(function(){
 
+	
+	
+	var r = Raphael('map', 1030, 820),
+		attributes = {
+            fill: '#fff',
+            stroke: '#3899E6',
+            'stroke-width': 1,
+            'stroke-linejoin': 'round'
+        },
+		arr = new Array();
+	
+	for (var country in paths) {
+		
+		var obj = r.path(paths[country].path);
+		
+		obj.attr(attributes);
+		
+		arr[obj.id] = country;
+			
+		obj
+		.hover(function(){
+this.animate({
+				fill: '#1669AD'
+			}, 300);
+			document.location.hash = arr[this.id];			
+			var point = this.getBBox(0);
+			//veriler statik. veritabanından alınacaklar.
+			ciz(paths[arr[this.id]].vote[0],paths[arr[this.id]].vote[1],paths[arr[this.id]].vote[2],paths[arr[this.id]].vote[3],paths[arr[this.id]].name);
+			
+			$('#map').next('.point').remove();
+			
+			$('#map').after($('<div />').addClass('point'));
+			
+			$("#AKP").val(paths[arr[this.id]].vote[0]);
+			$("#CHP").val(paths[arr[this.id]].vote[1]);
+			$("#MHP").val(paths[arr[this.id]].vote[2]);
+			$("#Diger").val(paths[arr[this.id]].vote[3]);
+			
+			$('.point')
+			.html(paths[arr[this.id]].name)
+			
+			.css({
+				left: 100,
+				top: 50
+			})
+			.fadeIn();
+			
+		}, function(){
+			this.animate({
+				fill: attributes.fill
+			}, 300);
+	
+			
+		})
 
-
+		
+		$('.point').find('.close').live('click', function(){
+			var t = $(this),
+				parent = t.parent('.point');
+			
+			parent.fadeOut(function(){
+				parent.remove();
+			});
+			return false;
+		});
+		
+		
+		 
+		
+	}
+		
+			
 });
 
-function cizme(){
-	var r = Raphael(0,0,5000,5000);
-		                var a = [];
-		                
-		                #{list votes, as: 'v'}
-		                
-		                 a.push(${v.value});
-		                 
-		                #{/list}	            
-		                var pie = r.g.piechart(150, 200, 100,a);
-		                
-		                pie.hover(function () {
-		                    this.sector.stop();
-		                    this.sector.scale(1.1, 1.1, this.cx, this.cy);
-		                    if (this.label) {
-		                        this.label[0].stop();
-		                        this.label[0].scale(1.5);
-		                        this.label[1].attr({"font-weight": 800});
-		                    }
-		                }, function () {
-		                    this.sector.animate({scale: [1, 1, this.cx, this.cy]}, 500, "bounce");
-		                    if (this.label) {
-		                        this.label[0].animate({scale: 1}, 500, "bounce");
-		                        this.label[1].attr({"font-weight": 400});
-		                     }
-		                    
-		                });
-		                var pie = r.g.barchart(400, 100, 300,200,a);
-		                
-		                
-	}	                
-	                </script>        
+
+
+function ciz(a,b,c,d,e){
+	var r = Raphael(1153,0,500,500);
+	r.clear();//chartı temizleyemiyoruz yenisi üzerine ciziliyor.
+	r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
 	                
+	                r.g.text(150, 210, e).attr({"font-size": 20});
 	                
-	                	 <input type="button" onclick="cizme();" value="Ciz" >
-	                
+	                var pie = r.g.piechart(150, 350, 100, [b, a, c, d], {legend: ["%%.%% AKP", "%%.%% CHP","%%.%% MHP","%%.%% DİĞER"], legendpos: "east", href: ["http://ktuluceng.com", "http://ktuluceng.com","http://ktuluceng.com","http://ktuluceng.com"],colors:['orange', 'red', 'green','blue']});
+	                pie.hover(function () {
+	                    this.sector.stop();
+	                    this.sector.scale(1.1, 1.1, this.cx, this.cy);
+	                    if (this.label) {
+	                        this.label[0].stop();
+	                        this.label[0].scale(1.5);
+	                        this.label[1].attr({"font-weight": 800});
+	                    }
+	                }, function () {
+	                    this.sector.animate({scale: [1, 1, this.cx, this.cy]}, 500, "bounce");
+	                    if (this.label) {
+	                        this.label[0].animate({scale: 1}, 500, "bounce");
+	                        this.label[1].attr({"font-weight": 400});
+	                    }
+	                    
+	                });
+	               
+	
+}
+</script>
+	     
+	<div class="wrapper">
+		<div id="map"></div>
+	</div>
+	<p>
+			<input id="AKP" type="text" value="" style="position: absolute; left: 1200px;  top: 20px;" /> 
+			</p> 
+			<p>
+			<input id="CHP" type="text" value="" style="position: absolute; left: 1200px;  top: 50px;" /> 
+			</p>
+			<p>
+			<input id="MHP" type="text" value="" style="position: absolute; left: 1200px;  top: 80px;" /> 
+			</p>
+			<p>
+			<input id="Diger" type="text" value="" style="position: absolute; left: 1200px;  top: 110px;" /> 
+			</p>
+		

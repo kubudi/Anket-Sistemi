@@ -8,9 +8,9 @@ import java.util.*;
 import models.*;
 
 public class Application extends Controller{
-
+	public static int a= (int)Math.floor(Math.random()*10)+1; 
     public static void index() {
-    	int a= (int)Math.floor(Math.random()*10)+1; 
+
     	//en fazla 10 kategori
     	for(int i=0; i<a; i++)    //random veri olusturulması (3 il icin)
     	{
@@ -29,25 +29,28 @@ public class Application extends Controller{
     			new Vote("Category"+i,"Izmir").save();
         	}		
     	}
-        int []votes=new int [a];
-        int count=a;
-    	for(int i=0; i<a; i++)    
-    	{
-    		votes[i]= (int) Vote.count("category=?", "Category"+i);
-    	}
-        render(count,votes);
+      List votes=Vote.findAll();
+      votes.toArray();
+      int [] trabzon=new int [4];
+      int [] izmir=new int [4];
+      int [] ankara=new int [4];
+      trabzon[0]=(int)Vote.count("category=? and location=?", "AKP","Trabzon") ;
+      trabzon[1]=(int)Vote.count("category=? and location=?", "CHP","Trabzon") ;
+      trabzon[2]=(int)Vote.count("category=? and location=?", "MHP","Trabzon") ;
+      trabzon[3]=(int)Vote.count("category=? and location=?", "Diger","Trabzon") ;
+      izmir[0]=(int)Vote.count("category=? and location=?", "AKP","Izmir") ;
+      izmir[1]=(int)Vote.count("category=? and location=?", "CHP","Izmir") ;
+      izmir[2]=(int)Vote.count("category=? and location=?", "MHP","Izmir") ;
+      izmir[3]=(int)Vote.count("category=? and location=?", "Diger","Izmir") ;
+      ankara[0]=(int)Vote.count("category=? and location=?", "AKP","Ankara") ;
+      ankara[1]=(int)Vote.count("category=? and location=?", "CHP","Ankara") ;
+      ankara[2]=(int)Vote.count("category=? and location=?", "MHP","Ankara") ;
+      ankara[3]=(int)Vote.count("category=? and location=?", "Diger","Ankara") ;
+        render(trabzon,izmir,ankara);
     }
     
-    public static long oysayisi() {   	
-    	return Vote.count();
-    }
+
     
-    public static long oysayisi(String choice) {  
-    	return  Vote.count("category=?", choice);
-    }
-    public static long oysayisi(String choice,String location) {  
-    	return  Vote.count("category=? and location=?",choice, location);
-    }
     
     
 }
