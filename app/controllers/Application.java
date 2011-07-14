@@ -31,21 +31,22 @@ public class Application extends Controller{
     	}
       List votes=Vote.findAll();
       votes.toArray();
-      
-int [][] oylar= new int [3][4];
-      oylar[0][0]=(int)Vote.count("category=? and location=?", "AKP","Trabzon") ;
-      oylar[0][1]=(int)Vote.count("category=? and location=?", "CHP","Trabzon") ;
-      oylar[0][2]=(int)Vote.count("category=? and location=?", "MHP","Trabzon") ;
-      oylar[0][3]=(int)Vote.count("category=? and location=?", "Diger","Trabzon") ;
-      oylar[1][0]=(int)Vote.count("category=? and location=?", "AKP","Izmir") ;
-      oylar[1][1]=(int)Vote.count("category=? and location=?", "CHP","Izmir") ;
-      oylar[1][2]=(int)Vote.count("category=? and location=?", "MHP","Izmir") ;
-      oylar[1][3]=(int)Vote.count("category=? and location=?", "Diger","Izmir") ;
-      oylar[2][0]=(int)Vote.count("category=? and location=?", "AKP","Ankara") ;
-      oylar[2][1]=(int)Vote.count("category=? and location=?", "CHP","Ankara") ;
-      oylar[2][2]=(int)Vote.count("category=? and location=?", "MHP","Ankara") ;
-      oylar[2][3]=(int)Vote.count("category=? and location=?", "Diger","Ankara") ;
-        render(oylar);
+      int [] trabzon=new int [4];
+      int [] izmir=new int [4];
+      int [] ankara=new int [4];
+      trabzon[0]=(int)Vote.count("category=? and location=?", "AKP","Trabzon") ;
+      trabzon[1]=(int)Vote.count("category=? and location=?", "CHP","Trabzon") ;
+      trabzon[2]=(int)Vote.count("category=? and location=?", "MHP","Trabzon") ;
+      trabzon[3]=(int)Vote.count("category=? and location=?", "Diger","Trabzon") ;
+      izmir[0]=(int)Vote.count("category=? and location=?", "AKP","Izmir") ;
+      izmir[1]=(int)Vote.count("category=? and location=?", "CHP","Izmir") ;
+      izmir[2]=(int)Vote.count("category=? and location=?", "MHP","Izmir") ;
+      izmir[3]=(int)Vote.count("category=? and location=?", "Diger","Izmir") ;
+      ankara[0]=(int)Vote.count("category=? and location=?", "AKP","Ankara") ;
+      ankara[1]=(int)Vote.count("category=? and location=?", "CHP","Ankara") ;
+      ankara[2]=(int)Vote.count("category=? and location=?", "MHP","Ankara") ;
+      ankara[3]=(int)Vote.count("category=? and location=?", "Diger","Ankara") ;
+        render(trabzon,izmir,ankara);
     }
     
 

@@ -21,7 +21,12 @@ $(function(){
 		obj.attr(attributes);
 		
 		arr[obj.id] = country;
-			
+		obj.click(function(){
+		    document.location.hash = arr[this.id];
+		   
+		    var point = this.getBBox(0);
+		  			ciz(paths[arr[this.id]].vote[0],paths[arr[this.id]].vote[1],paths[arr[this.id]].vote[2],paths[arr[this.id]].vote[3],paths[arr[this.id]].name);   
+		});	
 		obj
 		.hover(function(){
 this.animate({
@@ -29,17 +34,16 @@ this.animate({
 			}, 300);
 			document.location.hash = arr[this.id];			
 			var point = this.getBBox(0);
-			//veriler statik. veritabanından alınacaklar.
-			ciz(paths[arr[this.id]].vote[0],paths[arr[this.id]].vote[1],paths[arr[this.id]].vote[2],paths[arr[this.id]].vote[3],paths[arr[this.id]].name);
-			
+						
 			$('#map').next('.point').remove();
 			
 			$('#map').after($('<div />').addClass('point'));
-			
-			$("#AKP").val(paths[arr[this.id]].vote[0]);
-			$("#CHP").val(paths[arr[this.id]].vote[1]);
-			$("#MHP").val(paths[arr[this.id]].vote[2]);
-			$("#Diger").val(paths[arr[this.id]].vote[3]);
+			var sum=paths[arr[this.id]].vote[0]+paths[arr[this.id]].vote[1]+paths[arr[this.id]].vote[2]+paths[arr[this.id]].vote[3];
+		    $("#Toplam").val(sum);
+			$("#AKP").val("%"+Math.round(100*paths[arr[this.id]].vote[0]/sum*100)/100 +"    ("+paths[arr[this.id]].vote[0]+"oy)");
+			$("#CHP").val("%"+Math.round(100*paths[arr[this.id]].vote[1]/sum*100)/100 +"    ("+paths[arr[this.id]].vote[1]+"oy)");
+			$("#MHP").val("%"+Math.round(100*paths[arr[this.id]].vote[2]/sum*100)/100 +"    ("+paths[arr[this.id]].vote[2]+"oy)");
+			$("#Diger").val("%"+Math.round(100*paths[arr[this.id]].vote[3]/sum*100)/100 +"    ("+paths[arr[this.id]].vote[3]+"oy)");
 			
 			$('.point')
 			.html(paths[arr[this.id]].name)
@@ -55,11 +59,11 @@ this.animate({
 				fill: attributes.fill
 			}, 300);
 	
-			
 		})
 
 		
 		$('.point').find('.close').live('click', function(){
+			
 			var t = $(this),
 				parent = t.parent('.point');
 			
@@ -78,9 +82,8 @@ this.animate({
 });
 
 
-
+var r = Raphael(1153,0,500,500);
 function ciz(a,b,c,d,e){
-	var r = Raphael(1153,0,500,500);
 	r.clear();//chartı temizleyemiyoruz yenisi üzerine ciziliyor.
 	r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
 	                
@@ -111,16 +114,36 @@ function ciz(a,b,c,d,e){
 	<div class="wrapper">
 		<div id="map"></div>
 	</div>
-	<p>
-			<input id="AKP" type="text" value="" style="position: absolute; left: 1200px;  top: 20px;" /> 
-			</p> 
-			<p>
-			<input id="CHP" type="text" value="" style="position: absolute; left: 1200px;  top: 50px;" /> 
-			</p>
-			<p>
-			<input id="MHP" type="text" value="" style="position: absolute; left: 1200px;  top: 80px;" /> 
-			</p>
-			<p>
-			<input id="Diger" type="text" value="" style="position: absolute; left: 1200px;  top: 110px;" /> 
-			</p>
+	<table>
+		<form>
+		<tr>
+		<td>Toplam:</td> 
+			<td><input id="Toplam" style="text-align: left; width:3em "/> oy.</td> 
+						
+		</tr>
+		<tr> 
+			<td>AKP:</td> 
+			<td>			<input id="AKP" /> 
+</td>
+
+		</tr>
+		<tr>	
+			<td>CHP:</td>
+			<td><input id="CHP" type="text" value="" /> 
+</td>
+		</tr>
+		<tr>	
+			<td>MHP:</td>
+			<td><input id="MHP" type="text" value=""/> 
+</td>
+		</tr>
+
+		<tr>	
+			<td>Diğer:</td>
+			<td><input id="Diger" type="text" value="" /> 
+</td>
+		</tr>	
+		</form>
+
+</table>
 		
