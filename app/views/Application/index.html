@@ -1,36 +1,64 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
+
+
+<li>
+
+<strong>AKP: ${trabzon[0][0]}</strong> CHP: ${trabzon[0][1]} MHP: ${trabzon[0][2]}  DIGER: ${trabzon[0][3]}
+
+</li>
 <script type="text/javascript">
 $(function(){
 
-	
-	
 	var r = Raphael('map', 1030, 820),
-		attributes = {
-            fill: '#fff',
-            stroke: '#3899E6',
-            'stroke-width': 1,
-            'stroke-linejoin': 'round'
-        },
+	
+	attributes = {
+        fill: '#fff',
+        stroke: '#3899E6',
+        'stroke-width': 1,
+        'stroke-linejoin': 'round'
+    },
+	
 		arr = new Array();
+	    Plaka=new Array();
 	
 	for (var country in paths) {
 		
 		var obj = r.path(paths[country].path);
 		
-		obj.attr(attributes);
+		obj.attr({fill: paths[country].color});
+		
 		
 		arr[obj.id] = country;
+		
+		Plaka[obj.id]=paths[country].plaka;
+		
+		 obj.click(function(){
+
+			         document.location.hash = arr[this.id];
+
+			        
+
+			         var point = this.getBBox(0);
+			         
+
+			           //ciz(paths[arr[this.id]].vote[0],paths[arr[this.id]].vote[1],paths[arr[this.id]].vote[2],paths[arr[this.id]].vote[3],paths[arr[this.id]].name);   
+ciz(${trabzon[0][0].value},${trabzon[0][1].value},${trabzon[0][2].value},${trabzon[0][3].value});
+alert(arr[this.id]);
+alert(Plaka[this.id]);
+
+			     }); 
+		
 			
 		obj
 		.hover(function(){
 this.animate({
 				fill: '#1669AD'
 			}, 300);
-			document.location.hash = arr[this.id];			
-			var point = this.getBBox(0);
-			//veriler statik. veritabanından alınacaklar.
-			ciz(paths[arr[this.id]].vote[0],paths[arr[this.id]].vote[1],paths[arr[this.id]].vote[2],paths[arr[this.id]].vote[3],paths[arr[this.id]].name);
+			
+			//alert(colorr[obj.id]);
+			document.location.hash = arr[this.id];		
+			 var point = this.getBBox(0);
 			
 			$('#map').next('.point').remove();
 			
@@ -45,14 +73,14 @@ this.animate({
 			.html(paths[arr[this.id]].name)
 			
 			.css({
-				left: 100,
-				top: 50
+				left: point.x-20,
+				top: point.y-20
 			})
 			.fadeIn();
 			
 		}, function(){
 			this.animate({
-				fill: attributes.fill
+				fill: paths[arr[this.id]].color
 			}, 300);
 	
 			
@@ -78,10 +106,11 @@ this.animate({
 });
 
 
+var r = Raphael(1153,0,500,500);
 
 function ciz(a,b,c,d,e){
-	var r = Raphael(1153,0,500,500);
-	r.clear();//chartı temizleyemiyoruz yenisi üzerine ciziliyor.
+	
+    r.clear();
 	r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
 	                
 	                r.g.text(150, 210, e).attr({"font-size": 20});
@@ -104,7 +133,7 @@ function ciz(a,b,c,d,e){
 	                    
 	                });
 	               
-	
+	//r.clear();
 }
 </script>
 	     

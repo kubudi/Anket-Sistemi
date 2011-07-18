@@ -18,7 +18,10 @@ public class Application extends Controller{
     	
     		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
         	{
-    			new Vote("Category"+i,"Trabzon").save();
+    			new Vote("AKP","Trabzon").save();
+    			new Vote("CHP","Trabzon").save();
+    			new Vote("MHP","Trabzon").save();
+    			new Vote("Diger","Trabzon").save();
         	}
     		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
         	{
@@ -31,22 +34,14 @@ public class Application extends Controller{
     	}
       List votes=Vote.findAll();
       votes.toArray();
-      int [] trabzon=new int [4];
-      int [] izmir=new int [4];
-      int [] ankara=new int [4];
-      trabzon[0]=(int)Vote.count("category=? and location=?", "AKP","Trabzon") ;
-      trabzon[1]=(int)Vote.count("category=? and location=?", "CHP","Trabzon") ;
-      trabzon[2]=(int)Vote.count("category=? and location=?", "MHP","Trabzon") ;
-      trabzon[3]=(int)Vote.count("category=? and location=?", "Diger","Trabzon") ;
-      izmir[0]=(int)Vote.count("category=? and location=?", "AKP","Izmir") ;
-      izmir[1]=(int)Vote.count("category=? and location=?", "CHP","Izmir") ;
-      izmir[2]=(int)Vote.count("category=? and location=?", "MHP","Izmir") ;
-      izmir[3]=(int)Vote.count("category=? and location=?", "Diger","Izmir") ;
-      ankara[0]=(int)Vote.count("category=? and location=?", "AKP","Ankara") ;
-      ankara[1]=(int)Vote.count("category=? and location=?", "CHP","Ankara") ;
-      ankara[2]=(int)Vote.count("category=? and location=?", "MHP","Ankara") ;
-      ankara[3]=(int)Vote.count("category=? and location=?", "Diger","Ankara") ;
-        render(trabzon,izmir,ankara);
+      int [][] trabzon=new int[1] [4];
+     
+      trabzon[0][0]=(int)Vote.count("category=? and location=?", "AKP","Trabzon") ;
+      trabzon[0][1]=(int)Vote.count("category=? and location=?", "CHP","Trabzon") ;
+      trabzon[0][2]=(int)Vote.count("category=? and location=?", "MHP","Trabzon") ;
+      trabzon[0][3]=(int)Vote.count("category=? and location=?", "Diger","Trabzon") ;
+  
+        render(trabzon);
     }
     
 
