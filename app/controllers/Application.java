@@ -24,10 +24,22 @@ public class Application extends Controller{
     			new Vote("MHP",String.valueOf(i)).save();
     		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
     			new Vote("Diger",String.valueOf(i)).save();
-    				
     	}
-      
-  
+
+    	ArrayList arrayList = new ArrayList();
+
+    	for (int i = 0; i < 81 ; i++)
+    	{
+    		
+    	ArrayList l2 = new ArrayList(); 
+
+    	l2.add(Vote.count("category=? and location=?", "AKP",String.valueOf(i)));
+    	l2.add(Vote.count("category=? and location=?", "CHP",String.valueOf(i))) ;
+    	l2.add(Vote.count("category=? and location=?", "MHP",String.valueOf(i))) ;
+    	l2.add(Vote.count("category=? and location=?", "Diger",String.valueOf(i)));
+    	arrayList.add(l2);
+    	}
+           
         render();
     }
     

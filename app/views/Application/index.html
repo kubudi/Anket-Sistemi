@@ -15,56 +15,40 @@ $(function(){
 	
 		arr = new Array();
 	    Plaka=new Array();
-	
+	    var obj;
+	 
+	    
 	for (var country in paths) {
 		
 		
 		
 		
-		var obj = r.path(paths[country].path);
+		obj = r.path(paths[country].path);
 		arr[obj.id] = country;
-		
+		var cnt=arr[obj.id];
 		Plaka[obj.id]=paths[country].plaka;
 		
 		 var name=paths[country].name;
 		 var plaka=paths[country].plaka;
-      
-         $.ajax({
-        	 type:'GET',
-        	 url:"@{Application.getVote()}",
-             dataType:"json",
-             data:{
-            	 il:plaka
-             },
-             success:function(data){
-            	 //alert(data[0]);
-            	 //ciz(data[0],data[1],data[2],data[3],name);
-            	 for(var i=0;i<4;i++)
-            	 	 paths[country].vote[i]=data[i];	 
-            	 
-             }
-         })
-		
-		
-		
-		var max;
-        max=0;
-        for(var i=0;i<4;i++)
-        if(paths[country].vote[i]>=max)
-        max=paths[country].vote[i];
+         //paths[country].vote[0]=${}
          
-        for(var i=0;i<4;i++)
-        	if(paths[country].vote[i]==max)
-        		if(i==0)
-        			paths[country].color='orange';
-        			else if(i==1)
-        				paths[country].color='red';
-        				else if(i==2)
-        					paths[country].color='green';
-        					else
-        						paths[country].color='blue';
-		obj.attr({fill: paths[country].color});
+        // var jsn=arrayList;
+		// alert(jsn[0][0]);
+		 
+		//alert("cagridan önce");
+   	  // alert(paths[country].vote[0]+"-"+paths[country].vote[1]+"-"+paths[country].vote[2]+"-"+paths[country].vote[3]);
+
+       ajax_cagrisi(name,plaka,cnt,obj);
+       //alert("sonra");
+     //	   alert(paths[country].vote[0]+"-"+paths[country].vote[1]+"-"+paths[country].vote[2]+"-"+paths[country].vote[3]);
+
+		//alert(paths[country].color);
+	
+		//renkle(country);
+		//alert(paths[country].color);
 		
+        //ciz(paths[country].vote[0],paths[country].vote[1],paths[country].vote[2],paths[country].vote[3],name);
+
 		
 		 obj.click(function(){
 			 
@@ -74,22 +58,10 @@ $(function(){
 			 var name=paths[arr[this.id]].name;
 			 var plaka=paths[arr[this.id]].plaka;
 
-             $.ajax({
-            	 type:'GET',
-            	 url:"@{Application.getVote()}",
-                 dataType:"json",
-                 data:{
-                	 il:plaka
-                 },
-                 success:function(data){
-                	 //alert(data[0]);
-                	 for(var i=0;i<4;i++)
-            	 	 paths[cnt].vote[i]=data[i];	
-                	 ciz(data[0],data[1],data[2],data[3],name);
-                	 alert(data[0]+"-"+data[1]+"-"+data[2]+"-"+data[3]);
-                 }
-             })
-
+            ajax_cagrisi(name,plaka,cnt,obj);
+            //renkle(cnt);
+            ciz(paths[arr[this.id]].vote[0],paths[arr[this.id]].vote[1],paths[arr[this.id]].vote[2],paths[arr[this.id]].vote[3],name);
+       	  //  alert(paths[arr[this.id]].vote[0]+"-"+paths[arr[this.id]].vote[1]+"-"+paths[arr[this.id]].vote[2]+"-"+paths[arr[this.id]].vote[3]);
 			     }); 
 		 
 		 
@@ -97,7 +69,7 @@ $(function(){
 		obj
 		.hover(function(){
 this.animate({
-				fill: '#1669AD'
+				fill: 'white'
 			}, 300);
 
 			
@@ -143,17 +115,67 @@ this.animate({
 			});
 			return false;
 		});
-		
-		
-		 
-		
-	}
-		
-			
+	}			
 });
 
 
 var r = Raphael(1153,0,500,500);
+
+
+
+
+function ajax_cagrisi(name,plaka,cnt,obj){
+	
+	 $.ajax({
+    	 type:'GET',
+    	 url:"@{Application.getVote()}",
+         dataType:"json",
+         data:{
+        	 il:plaka
+         },
+         success:function(data){
+        	 for(var i=0;i<4;i++)
+    	 	 paths[cnt].vote[i]=data[i];	
+        	 renkle(cnt);
+        	 obj.attr({fill: paths[cnt].color});
+        //	 alert(cnt);
+       	  // alert(paths[cnt].vote[0]+"-"+paths[cnt].vote[1]+"-"+paths[cnt].vote[2]+"-"+paths[cnt].vote[3]);
+
+         }
+     })	
+     flag=1;
+}
+
+function renkle(country){
+	var max;
+	var biggest;
+	biggest=0;
+    max=0;
+    //alert("renklede");
+    //alert(paths[country].vote[0]+"-"+paths[country].vote[1]+"-"+paths[country].vote[2]+"-"+paths[country].vote[3]);
+    for(var i=0;i<4;i++){
+    	// alert ("max :"+max+"  vote :"+paths[country].vote[i]);
+    if(paths[country].vote[i]>=max){
+    max = paths[country].vote[i];
+    biggest=i;
+    }
+    }
+   //alert("maksimum="+max);
+    		if(biggest==0)
+    			paths[country].color='orange';
+    			else if(biggest==1)
+    				paths[country].color='red';
+    				else if(biggest==2)
+    					paths[country].color='green';
+    					else
+    						paths[country].color='blue';
+    	//	alert("rengi : "+paths[country].color);
+    	
+    	return false;
+}
+
+
+
 
 function ciz(a,b,c,d,e){
 	
@@ -163,7 +185,7 @@ function ciz(a,b,c,d,e){
 	                
 	                r.g.text(150, 210, e).attr({"font-size": 20});
 	                
-	                var pie = r.g.piechart(150, 350, 100, [b, a, c, d], {legend: ["%%.%% AKP", "%%.%% CHP","%%.%% MHP","%%.%% DİĞER"], legendpos: "east", href: ["http://ktuluceng.com", "http://ktuluceng.com","http://ktuluceng.com","http://ktuluceng.com"],colors:['orange', 'red', 'green','blue']});
+	                var pie = r.g.piechart(150, 350, 100, [a, b, c, d], {legend: ["%%.%% AKP", "%%.%% CHP","%%.%% MHP","%%.%% DİĞER"], legendpos: "east", href: ["http://ktuluceng.com", "http://ktuluceng.com","http://ktuluceng.com","http://ktuluceng.com"],colors:['orange', 'red', 'green','blue']});
 	                pie.hover(function () {
 	                    this.sector.stop();
 	                    this.sector.scale(1.1, 1.1, this.cx, this.cy);
