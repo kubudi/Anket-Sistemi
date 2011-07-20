@@ -12,40 +12,35 @@ public class Application extends Controller{
     public static void index() {
 
     	//en fazla 10 kategori
-    	for(int i=0; i<a; i++)    //random veri olusturulması (3 il icin)
+    	for(int i=0; i<81; i++)    //random veri olusturulması (3 il icin)
     	{
     		
     	
     		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
-        	{
-    			new Vote("AKP","Trabzon").save();
-    			new Vote("CHP","Trabzon").save();
-    			new Vote("MHP","Trabzon").save();
-    			new Vote("Diger","Trabzon").save();
-        	}
+    			new Vote("AKP",String.valueOf(i)).save();
+    		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
+    			new Vote("CHP",String.valueOf(i)).save();
+    		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
+    			new Vote("MHP",String.valueOf(i)).save();
+    		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
+    			new Vote("Diger",String.valueOf(i)).save();
     				
     	}
-      List votes=Vote.findAll();
-      votes.toArray();
-      int [][] trabzon=new int[1] [4];
-     
-      trabzon[0][0]=(int)Vote.count("category=? and location=?", "AKP","Trabzon") ;
-      trabzon[0][1]=(int)Vote.count("category=? and location=?", "CHP","Trabzon") ;
-      trabzon[0][2]=(int)Vote.count("category=? and location=?", "MHP","Trabzon") ;
-      trabzon[0][3]=(int)Vote.count("category=? and location=?", "Diger","Trabzon") ;
+      
   
-        render(trabzon);
+        render();
     }
     
     public static void getVote(String il) {
-    	int [] oylar=new int [4];
-    	
-    	oylar[0]=(int)Vote.count("category=? and location=?", "AKP","il") ;
-    	oylar[1]=(int)Vote.count("category=? and location=?", "CHP","il") ;
-    	oylar[2]=(int)Vote.count("category=? and location=?", "MHP","il") ;
-    	oylar[3]=(int)Vote.count("category=? and location=?", "Diger","il");
-    	
-    	render(oylar);
+    	int [] data=new int [4];
+    	ArrayList<Long> liste = new ArrayList<Long>();
+
+    	liste.add(Vote.count("category=? and location=?", "AKP",il));
+    	liste.add(Vote.count("category=? and location=?", "CHP",il)) ;
+    	liste.add(Vote.count("category=? and location=?", "MHP",il)) ;
+    	liste.add(Vote.count("category=? and location=?", "Diger",il));
+	
+    	renderJSON(liste);
     }
 
     

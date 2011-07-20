@@ -1,12 +1,6 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-
-<li>
-
-<strong>AKP: ${trabzon[0][0]}</strong> CHP: ${trabzon[0][1]} MHP: ${trabzon[0][2]}  DIGER: ${trabzon[0][3]}
-
-</li>
 <script type="text/javascript">
 $(function(){
 
@@ -24,13 +18,41 @@ $(function(){
 	
 	for (var country in paths) {
 		
+		
+		
+		
 		var obj = r.path(paths[country].path);
+		arr[obj.id] = country;
+		
+		Plaka[obj.id]=paths[country].plaka;
+		
+		 var name=paths[country].name;
+		 var plaka=paths[country].plaka;
+      
+         $.ajax({
+        	 type:'GET',
+        	 url:"@{Application.getVote()}",
+             dataType:"json",
+             data:{
+            	 il:plaka
+             },
+             success:function(data){
+            	 //alert(data[0]);
+            	 //ciz(data[0],data[1],data[2],data[3],name);
+            	 for(var i=0;i<4;i++)
+            	 	 paths[country].vote[i]=data[i];	 
+            	 
+             }
+         })
+		
+		
+		
 		var max;
         max=0;
         for(var i=0;i<4;i++)
         if(paths[country].vote[i]>=max)
         max=paths[country].vote[i];
-        
+         
         for(var i=0;i<4;i++)
         	if(paths[country].vote[i]==max)
         		if(i==0)
@@ -42,31 +64,34 @@ $(function(){
         					else
         						paths[country].color='blue';
         
-        for(var i=0;i<4;i++)
-        	alert(paths[country].vote[i]);
-		
+       // for(var i=0;i<4;i++)
+        //	alert(paths[country].vote[i]);
 		obj.attr({fill: paths[country].color});
 		
 		
-		arr[obj.id] = country;
-		
-		Plaka[obj.id]=paths[country].plaka;
-		
 		 obj.click(function(){
-
-			 document.location.hash = arr[this.id];
-
-
-
+			 
 			 var point = this.getBBox(0);
+			 document.location.hash = arr[this.id];
+			 var cnt=arr[this.id];
+			 var name=paths[arr[this.id]].name;
+			 var plaka=paths[arr[this.id]].plaka;
 
-
-			 ciz(paths[arr[this.id]].vote[0],paths[arr[this.id]].vote[1],paths[arr[this.id]].vote[2],paths[arr[this.id]].vote[3],paths[arr[this.id]].name);
-			 //ciz(${trabzon[0][0].value},${trabzon[0][1].value},${trabzon[0][2].value},${trabzon[0][3].value});
-			 alert(arr[this.id]);
-			 alert(Plaka[this.id]);
-
-
+             $.ajax({
+            	 type:'GET',
+            	 url:"@{Application.getVote()}",
+                 dataType:"json",
+                 data:{
+                	 il:plaka
+                 },
+                 success:function(data){
+                	 //alert(data[0]);
+                	 for(var i=0;i<4;i++)
+            	 	 paths[cnt].vote[i]=data[i];	
+                	 ciz(data[0],data[1],data[2],data[3],name);
+                	 alert(data[0]+"-"+data[1]+"-"+data[2]+"-"+data[3]);
+                 }
+             })
 
 			     }); 
 		 
@@ -98,8 +123,8 @@ this.animate({
 			.html(paths[arr[this.id]].name)
 			
 			.css({
-				left: point.x-20,
-				top: point.y-20
+				left: 100,
+				top: 100
 			})
 			.fadeIn();
 			
@@ -132,7 +157,6 @@ this.animate({
 
 
 var r = Raphael(1153,0,500,500);
-
 
 function ciz(a,b,c,d,e){
 	
