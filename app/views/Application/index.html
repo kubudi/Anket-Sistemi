@@ -25,6 +25,25 @@ $(function(){
 	for (var country in paths) {
 		
 		var obj = r.path(paths[country].path);
+		var max;
+        max=0;
+        for(var i=0;i<4;i++)
+        if(paths[country].vote[i]>=max)
+        max=paths[country].vote[i];
+        
+        for(var i=0;i<4;i++)
+        	if(paths[country].vote[i]==max)
+        		if(i==0)
+        			paths[country].color='orange';
+        			else if(i==1)
+        				paths[country].color='red';
+        				else if(i==2)
+        					paths[country].color='green';
+        					else
+        						paths[country].color='blue';
+        
+        for(var i=0;i<4;i++)
+        	alert(paths[country].vote[i]);
 		
 		obj.attr({fill: paths[country].color});
 		
@@ -35,19 +54,24 @@ $(function(){
 		
 		 obj.click(function(){
 
-			         document.location.hash = arr[this.id];
+			 document.location.hash = arr[this.id];
 
-			        
 
-			         var point = this.getBBox(0);
-			         
 
-			           ciz(paths[arr[this.id]].vote[0],paths[arr[this.id]].vote[1],paths[arr[this.id]].vote[2],paths[arr[this.id]].vote[3],paths[arr[this.id]].name);   
-//ciz(${trabzon[0][0].value},${trabzon[0][1].value},${trabzon[0][2].value},${trabzon[0][3].value});
-alert(arr[this.id]);
-alert(Plaka[this.id]);
+			 var point = this.getBBox(0);
+
+
+			 ciz(paths[arr[this.id]].vote[0],paths[arr[this.id]].vote[1],paths[arr[this.id]].vote[2],paths[arr[this.id]].vote[3],paths[arr[this.id]].name);
+			 //ciz(${trabzon[0][0].value},${trabzon[0][1].value},${trabzon[0][2].value},${trabzon[0][3].value});
+			 alert(arr[this.id]);
+			 alert(Plaka[this.id]);
+
+
 
 			     }); 
+		 
+		 
+		 
 		obj
 		.hover(function(){
 this.animate({

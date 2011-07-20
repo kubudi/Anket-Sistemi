@@ -23,14 +23,7 @@ public class Application extends Controller{
     			new Vote("MHP","Trabzon").save();
     			new Vote("Diger","Trabzon").save();
         	}
-    		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
-        	{
-    			new Vote("Category"+i,"Ankara").save();
-        	}
-    		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
-        	{
-    			new Vote("Category"+i,"Izmir").save();
-        	}		
+    				
     	}
       List votes=Vote.findAll();
       votes.toArray();
@@ -44,6 +37,16 @@ public class Application extends Controller{
         render(trabzon);
     }
     
+    public static void getVote(String il) {
+    	int [] oylar=new int [4];
+    	
+    	oylar[0]=(int)Vote.count("category=? and location=?", "AKP","il") ;
+    	oylar[1]=(int)Vote.count("category=? and location=?", "CHP","il") ;
+    	oylar[2]=(int)Vote.count("category=? and location=?", "MHP","il") ;
+    	oylar[3]=(int)Vote.count("category=? and location=?", "Diger","il");
+    	
+    	render(oylar);
+    }
 
     
     
