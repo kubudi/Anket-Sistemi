@@ -8,23 +8,8 @@ import java.util.*;
 import models.*;
 
 public class Application extends Controller{
-	public static int a= (int)Math.floor(Math.random()*10)+1; 
-    public static void index() {
 
-    	//en fazla 10 kategori
-    	for(int i=0; i<81; i++)    //random veri olusturulması (3 il icin)
-    	{
-    		
-    	
-    		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
-    			new Vote("AKP",String.valueOf(i)).save();
-    		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
-    			new Vote("CHP",String.valueOf(i)).save();
-    		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
-    			new Vote("MHP",String.valueOf(i)).save();
-    		for(int j=0; j<Math.floor(Math.random()*10)+1;j++)
-    			new Vote("Diger",String.valueOf(i)).save();
-    	}
+    public static void index() {
 
     	ArrayList arrayList = new ArrayList();
 
