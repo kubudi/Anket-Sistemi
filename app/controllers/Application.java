@@ -40,6 +40,17 @@ public class Application extends Controller{
     	arrayList.add(l2);
     	}
            
+        List<Object[]> votes = Vote.find("select location, category, count(*) from Vote group by location, category order by location, category")
+                .fetch();
+        String location = null;
+        for (Object[] vote : votes) {
+            if (!vote[0].equals(location)) {
+                location = (String) vote[0];
+                System.out.println("*********************************************");
+            }
+            System.out.println(vote[0] + "=> " + vote[1] + ": " + vote[2]);
+        }
+
         render();
     }
     
