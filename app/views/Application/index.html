@@ -32,7 +32,7 @@ $(function(){
 		var cnt=arr[obj.id];
 		Plaka[obj.id]=paths[country].plaka;
 		
-		 var name=paths[country].name;
+		 
 		 var plaka=paths[country].plaka;
          //paths[country].vote[0]=${}
          
@@ -42,7 +42,7 @@ $(function(){
 		//alert("cagridan Ã¶nce");
    	  // alert(paths[country].vote[0]+"-"+paths[country].vote[1]+"-"+paths[country].vote[2]+"-"+paths[country].vote[3]);
 
-       ajax_cagrisi(name,plaka,cnt,obj);
+       ajax_cagrisi(plaka,cnt,obj);
        //alert("sonra");
      //	   alert(paths[country].vote[0]+"-"+paths[country].vote[1]+"-"+paths[country].vote[2]+"-"+paths[country].vote[3]);
 
@@ -61,10 +61,11 @@ $(function(){
 			 var cnt=arr[this.id];
 			 var name=paths[arr[this.id]].name;
 			 var plaka=paths[arr[this.id]].plaka;
-
-            ajax_cagrisi(name,plaka,cnt,obj);
-            //renkle(cnt);
+			
+            ajax_cagrisi(plaka,cnt,obj);
+      
             ciz(paths[arr[this.id]].vote[0],paths[arr[this.id]].vote[1],paths[arr[this.id]].vote[2],paths[arr[this.id]].vote[3],name);
+           // barchartciz(Num1,Num2,Num3,Num4);
        	  //  alert(paths[arr[this.id]].vote[0]+"-"+paths[arr[this.id]].vote[1]+"-"+paths[arr[this.id]].vote[2]+"-"+paths[arr[this.id]].vote[3]);
 			     }); 
 		 
@@ -94,23 +95,21 @@ this.animate({
 			
 			$('.point')
 			.html(paths[arr[this.id]].name)
+			.prepend($('<a />').attr('href', '#').addClass('close').text('Close'))
 			
 			.css({
-				left: 100,
-				top: 100
+				left: point.x,
+				top: point.y-30
 			})
 			.fadeIn();
-			
+		
 		}, function(){
 			this.animate({
 				fill: paths[arr[this.id]].color
 			}, 300);
 	
 		})
-
-		
 		$('.point').find('.close').live('click', function(){
-			
 			var t = $(this),
 				parent = t.parent('.point');
 			
@@ -128,7 +127,7 @@ var r = Raphael(1153,0,500,500);
 
 
 
-function ajax_cagrisi(name,plaka,cnt,obj){
+function ajax_cagrisi(plaka,cnt,obj){
 	
 	 $.ajax({
     	 type:'GET',
@@ -145,14 +144,14 @@ function ajax_cagrisi(name,plaka,cnt,obj){
 				Num3+=data[2];
 				Num4+=data[3];
 				barchartciz(Num1,Num2,Num3,Num4);
-        	 renkle(cnt);
+			    renkle(cnt);
         	 obj.attr({fill: paths[cnt].color});
         //	 alert(cnt);
        	  // alert(paths[cnt].vote[0]+"-"+paths[cnt].vote[1]+"-"+paths[cnt].vote[2]+"-"+paths[cnt].vote[3]);
 
          }
      })	
-     flag=1;
+     
 }
 
 function renkle(country){
@@ -194,7 +193,7 @@ function ciz(a,b,c,d,e){
 	                
 	                r.g.text(150, 210, e).attr({"font-size": 20});
 	                
-	                var pie = r.g.piechart(150, 350, 100, [a, b, c, d], {legend: ["%%.%% AKP", "%%.%% CHP","%%.%% MHP","%%.%% DÄ°Ä�ER"], legendpos: "east", href: ["http://ktuluceng.com", "http://ktuluceng.com","http://ktuluceng.com","http://ktuluceng.com"],colors:['orange', 'red', 'green','blue']});
+	                var pie = r.g.piechart(150, 350, 100, [a, b, c, d], {legend: ["%%.%% AKP", "%%.%% CHP","%%.%% MHP","%%.%% DİĞER"], legendpos: "east", href: ["http://ktuluceng.com", "http://ktuluceng.com","http://ktuluceng.com","http://ktuluceng.com"],colors:['orange', 'red', 'green','blue']});
 	                pie.hover(function () {
 	                    this.sector.stop();
 	                    this.sector.scale(1.1, 1.1, this.cx, this.cy);
@@ -263,7 +262,7 @@ function barchartciz(a,b,c,d) {
 		</tr>
 
 		<tr>	
-			<td>DiÄŸer:</td>
+			<td>DiĞER:</td>
 			<td><input id="Diger" type="text" value="" /> 
 </td>
 		</tr>	
