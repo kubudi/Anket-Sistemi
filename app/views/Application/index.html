@@ -2,6 +2,10 @@
 #{set title:'Home' /}
 
 <script type="text/javascript">
+var Num1=0;
+var Num2=0;
+var Num3=0;
+var Num4=0;
 $(function(){
 
 	var r = Raphael('map', 1030, 820),
@@ -35,7 +39,7 @@ $(function(){
         // var jsn=arrayList;
 		// alert(jsn[0][0]);
 		 
-		//alert("cagridan önce");
+		//alert("cagridan Ã¶nce");
    	  // alert(paths[country].vote[0]+"-"+paths[country].vote[1]+"-"+paths[country].vote[2]+"-"+paths[country].vote[3]);
 
        ajax_cagrisi(name,plaka,cnt,obj);
@@ -136,6 +140,11 @@ function ajax_cagrisi(name,plaka,cnt,obj){
          success:function(data){
         	 for(var i=0;i<4;i++)
     	 	 paths[cnt].vote[i]=data[i];	
+        	    Num1+=data[0];
+				Num2+=data[1];
+				Num3+=data[2];
+				Num4+=data[3];
+				barchartciz(Num1,Num2,Num3,Num4);
         	 renkle(cnt);
         	 obj.attr({fill: paths[cnt].color});
         //	 alert(cnt);
@@ -185,7 +194,7 @@ function ciz(a,b,c,d,e){
 	                
 	                r.g.text(150, 210, e).attr({"font-size": 20});
 	                
-	                var pie = r.g.piechart(150, 350, 100, [a, b, c, d], {legend: ["%%.%% AKP", "%%.%% CHP","%%.%% MHP","%%.%% DİĞER"], legendpos: "east", href: ["http://ktuluceng.com", "http://ktuluceng.com","http://ktuluceng.com","http://ktuluceng.com"],colors:['orange', 'red', 'green','blue']});
+	                var pie = r.g.piechart(150, 350, 100, [a, b, c, d], {legend: ["%%.%% AKP", "%%.%% CHP","%%.%% MHP","%%.%% DÄ°Ä�ER"], legendpos: "east", href: ["http://ktuluceng.com", "http://ktuluceng.com","http://ktuluceng.com","http://ktuluceng.com"],colors:['orange', 'red', 'green','blue']});
 	                pie.hover(function () {
 	                    this.sector.stop();
 	                    this.sector.scale(1.1, 1.1, this.cx, this.cy);
@@ -204,6 +213,25 @@ function ciz(a,b,c,d,e){
 	                });
 	               
 	//r.clear();
+}
+var ra = Raphael(0, 0, 1200, 200);
+function barchartciz(a,b,c,d) {
+
+	 ra.clear();
+	  fin = function () {
+          this.flag = r.g.popup(this.bar.x, this.bar.y, this.bar.value || "0").insertBefore(this);
+      },
+      fout = function () {
+          this.flag.animate({opacity: 0}, 300, function () {this.remove();});
+      };
+	ra.g.txtattr.font = "20px 'Fontin Sans', Fontin-Sans, sans-serif";
+	ra.g.text(600, 50,"2011 TÜRKİYE GENELİ OYLAMA SONUÇLARI");
+
+
+	ra.g.hbarchart(175, 50, 800, 75, [[a], [b],[c],[d]], { colors : [ 'orange', 'red', 'green','blue' ],stacked: true}).hover(fin, fout);
+	// ra.g.hbarchart(175, 60, 800, 10, [[59], [18,],[15]], {stacked: true}).hover(fin, fout);
+	// ra.g.hbarchart(175, 50, 300, 150, [[59, 69, 47, 60, 62, 33], [18, 17, 35, 23, 22, 46],[15,8,14,12,11,16]], {stacked: true}).hover(fin, fout);
+	return false;
 }
 </script>
 	     
@@ -235,7 +263,7 @@ function ciz(a,b,c,d,e){
 		</tr>
 
 		<tr>	
-			<td>Diğer:</td>
+			<td>DiÄŸer:</td>
 			<td><input id="Diger" type="text" value="" /> 
 </td>
 		</tr>	
