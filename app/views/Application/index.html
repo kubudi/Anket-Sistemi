@@ -8,7 +8,7 @@ var Num3=0;
 var Num4=0;
 $(function(){
 
-	var r = Raphael('map', 1030, 820),
+	var r = ScaleRaphael('map', 1030, 820),
 	
 	attributes = {
         fill: '#fff',
@@ -118,13 +118,15 @@ this.animate({
 			});
 			return false;
 		});
-	}			
+	}
+	
+     // Ölçeklemeyi kaldırmak için aşağıdaki satırı kaldırın 
+        r.changeSize(640,480,true,false);
+				
 });
 
 
 var r = Raphael(1153,0,500,500);
-
-
 
 
 function ajax_cagrisi(plaka,cnt,obj){
