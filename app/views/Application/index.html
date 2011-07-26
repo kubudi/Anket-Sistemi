@@ -6,10 +6,18 @@ var Num1=0;
 var Num2=0;
 var Num3=0;
 var Num4=0;
+var rap = Raphael(950,0,500,500);
+var ra =  Raphael(0, 0, 1200, 200);
+
 $(function(){
 
-	var r = Raphael('map', 1030, 820),
+	//var r = Raphael('map', 1030, 820),
+	var r = ScaleRaphael('map', 1030, 820);
+		
+		
 	
+
+	var r = ScaleRaphael('map', 1030, 820),
 	attributes = {
         fill: '#fff',
         stroke: '#3899E6',
@@ -118,11 +126,12 @@ this.animate({
 			});
 			return false;
 		});
-	}			
+	}	
+	r.changeSize(1024,768,true,false);
 });
 
 
-var r = Raphael(1153,0,500,500);
+
 
 
 
@@ -187,13 +196,13 @@ function renkle(country){
 
 function ciz(a,b,c,d,e){
 	
-    r.clear();
+    rap.clear();
 
-	r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
+	rap.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
 	                
-	                r.g.text(150, 210, e).attr({"font-size": 20});
+	                rap.g.text(105,25, e).attr({"font-size": 20});
 	                
-	                var pie = r.g.piechart(150, 350, 100, [a, b, c, d], {legend: ["%%.%% AKP", "%%.%% CHP","%%.%% MHP","%%.%% DİĞER"], legendpos: "east", href: ["http://ktuluceng.com", "http://ktuluceng.com","http://ktuluceng.com","http://ktuluceng.com"],colors:['orange', 'red', 'green','blue']});
+	                var pie = rap.g.piechart(100, 100, 60, [a, b, c, d], {legend: ["%%.%% AKP", "%%.%% CHP","%%.%% MHP","%%.%% DİĞER"], legendpos: "east", href: ["http://ktuluceng.com", "http://ktuluceng.com","http://ktuluceng.com","http://ktuluceng.com"],colors:['orange', 'red', 'green','blue']});
 	                pie.hover(function () {
 	                    this.sector.stop();
 	                    this.sector.scale(1.1, 1.1, this.cx, this.cy);
@@ -213,7 +222,7 @@ function ciz(a,b,c,d,e){
 	               
 	//r.clear();
 }
-var ra = Raphael(0, 0, 1200, 200);
+
 function barchartciz(a,b,c,d) {
 
 	 ra.clear();
@@ -227,7 +236,7 @@ function barchartciz(a,b,c,d) {
 	ra.g.text(600, 50,"2011 TÜRKİYE GENELİ OYLAMA SONUÇLARI");
 
 
-	ra.g.hbarchart(175, 50, 800, 75, [[a], [b],[c],[d]], { colors : [ 'orange', 'red', 'green','blue' ],stacked: true}).hover(fin, fout);
+	ra.g.hbarchart(235, 60, 700, 70, [[a], [b],[c],[d]], { colors : [ 'orange', 'red', 'green','blue' ],stacked: true}).hover(fin, fout);
 	// ra.g.hbarchart(175, 60, 800, 10, [[59], [18,],[15]], {stacked: true}).hover(fin, fout);
 	// ra.g.hbarchart(175, 50, 300, 150, [[59, 69, 47, 60, 62, 33], [18, 17, 35, 23, 22, 46],[15,8,14,12,11,16]], {stacked: true}).hover(fin, fout);
 	return false;
