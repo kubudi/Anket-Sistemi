@@ -6,6 +6,7 @@ var Num1=0;
 var Num2=0;
 var Num3=0;
 var Num4=0;
+var sayi=0;
 var rap = Raphael(1040,0,500,500);
 var ra =  Raphael(0, 0, 935, 200);
 
@@ -152,6 +153,14 @@ function ajax_cagrisi(plaka,cnt,obj){
 				Num2+=data[1];
 				Num3+=data[2];
 				Num4+=data[3];
+				sayi++;
+				if(sayi>=82){
+					
+					Num1-=data[0];
+					Num2-=data[1];
+					Num3-=data[2];
+					Num4-=data[3];
+				}
 				barchartciz(Num1,Num2,Num3,Num4);
 			    renkle(cnt);
         	 obj.attr({fill: paths[cnt].color});
